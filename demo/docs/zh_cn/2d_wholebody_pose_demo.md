@@ -7,7 +7,7 @@
 此时输入的整张图片会被当作 bounding box 使用。
 
 ```shell
-python demo/image_demo.py \
+python demo/image_demo_single_00.py \
     ${IMG_FILE} ${MMPOSE_CONFIG_FILE} ${MMPOSE_CHECKPOINT_FILE} \
     --out-file ${OUTPUT_FILE} \
     [--device ${GPU_ID or CPU}] \
@@ -19,7 +19,7 @@ python demo/image_demo.py \
 这里我们用 [coco-wholebody_vipnas_res50_dark](https://download.openmmlab.com/mmpose/top_down/vipnas/vipnas_res50_wholebody_256x192_dark-67c0ce35_20211112.pth) 来进行演示：
 
 ```shell
-python demo/image_demo.py \
+python demo/image_demo_single_00.py \
     tests/data/coco/000000000785.jpg \
     configs/wholebody_2d_keypoint/topdown_heatmap/coco-wholebody/td-hm_vipnas-res50_dark-8xb64-210e_coco-wholebody-256x192.py \
     https://download.openmmlab.com/mmpose/top_down/vipnas/vipnas_res50_wholebody_256x192_dark-67c0ce35_20211112.pth \
@@ -29,7 +29,7 @@ python demo/image_demo.py \
 使用 CPU 推理：
 
 ```shell
-python demo/image_demo.py \
+python demo/image_demo_single_00.py \
     tests/data/coco/000000000785.jpg \
     configs/wholebody_2d_keypoint/topdown_heatmap/coco-wholebody/td-hm_vipnas-res50_dark-8xb64-210e_coco-wholebody-256x192.py \
     https://download.openmmlab.com/mmpose/top_down/vipnas/vipnas_res50_wholebody_256x192_dark-67c0ce35_20211112.pth \

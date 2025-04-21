@@ -9,7 +9,7 @@
 `demo/image_demo.py` helps the user to visualize the prediction result of a single image, including the skeleton and heatmaps.
 
 ```shell
-python demo/image_demo.py ${IMG} ${CONFIG} ${CHECKPOINT} [-h] [--out-file OUT_FILE] [--device DEVICE] [--draw-heatmap]
+python demo/image_demo_single_00.py ${IMG} ${CONFIG} ${CHECKPOINT} [-h] [--out-file OUT_FILE] [--device DEVICE] [--draw-heatmap]
 ```
 
 | ARGS                  | Description                      |

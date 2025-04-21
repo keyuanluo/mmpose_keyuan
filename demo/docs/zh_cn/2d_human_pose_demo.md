@@ -9,7 +9,7 @@
 此时输入的整张图片会被当作 bounding box 使用。
 
 ```shell
-python demo/image_demo.py \
+python demo/image_demo_single_00.py \
     ${IMG_FILE} ${MMPOSE_CONFIG_FILE} ${MMPOSE_CHECKPOINT_FILE} \
     --out-file ${OUTPUT_FILE} \
     [--device ${GPU_ID or CPU}] \
@@ -23,7 +23,7 @@ python demo/image_demo.py \
 这里我们用 [coco model](https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth) 来进行演示：
 
 ```shell
-python demo/image_demo.py \
+python demo/image_demo_single_00.py \
     tests/data/coco/000000000785.jpg \
     configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w48_8xb32-210e_coco-256x192.py \
     https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth \
@@ -34,7 +34,7 @@ python demo/image_demo.py \
 使用 CPU 推理：
 
 ```shell
-python demo/image_demo.py \
+python demo/image_demo_single_00.py \
     tests/data/coco/000000000785.jpg \
     configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w48_8xb32-210e_coco-256x192.py \
     https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth \

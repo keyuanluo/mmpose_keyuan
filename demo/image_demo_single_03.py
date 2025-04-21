@@ -2,6 +2,7 @@
 import logging
 from argparse import ArgumentParser
 
+import pandas as pd  # 用于保存Excel文件
 from mmcv.image import imread
 from mmengine.logging import print_log
 
@@ -12,49 +13,49 @@ from mmpose.structures import merge_data_samples
 
 def parse_args():
     parser = ArgumentParser()
-    parser.add_argument('img', help='Image file')
-    parser.add_argument('config', help='Config file')
-    parser.add_argument('checkpoint', help='Checkpoint file')
-    parser.add_argument('--out-file', default=None, help='Path to output file')
+    parser.add_argument('img', help='图片文件')
+    parser.add_argument('config', default='td-hm_hrnet-w48_8xb32-210e_coco-256x192.py', help='配置文件')
+    parser.add_argument('checkpoint', default='td-hm_hrnet-w48_8xb32-210e_coco-256x192-0e67c616_20220913.pth', help='检查点文件')
+    parser.add_argument('--out-file', default=None, help='输出图片的路径')
     parser.add_argument(
-        '--device', default='cuda:0', help='Device used for inference')
+        '--device', default='cuda:0', help='用于推理的设备')
     parser.add_argument(
         '--draw-heatmap',
         action='store_true',
-        help='Visualize the predicted heatmap')
+        help='可视化预测的热力图')
     parser.add_argument(
         '--show-kpt-idx',
         action='store_true',
         default=False,
-        help='Whether to show the index of keypoints')
+        help='是否显示关键点的索引')
     parser.add_argument(
         '--skeleton-style',
         default='mmpose',
         type=str,
         choices=['mmpose', 'openpose'],
-        help='Skeleton style selection')
+        help='骨架样式选择')
     parser.add_argument(
         '--kpt-thr',
         type=float,
         default=0.3,
-        help='Visualizing keypoint thresholds')
+        help='关键点可视化的阈值')
     parser.add_argument(
         '--radius',
         type=int,
         default=3,
-        help='Keypoint radius for visualization')
+        help='关键点可视化的半径')
     parser.add_argument(
         '--thickness',
         type=int,
         default=1,
-        help='Link thickness for visualization')
+        help='连线的粗细')
     parser.add_argument(
-        '--alpha', type=float, default=0.8, help='The transparency of bboxes')
+        '--alpha', type=float, default=0.8, help='边界框的透明度')
     parser.add_argument(
         '--show',
         action='store_true',
         default=False,
-        help='whether to show img')
+        help='是否显示图像')
     args = parser.parse_args()
     return args
 
@@ -62,7 +63,7 @@ def parse_args():
 def main():
     args = parse_args()
 
-    # build the model from a config file and a checkpoint file
+    # 根据配置文件和检查点文件构建模型
     if args.draw_heatmap:
         cfg_options = dict(model=dict(test_cfg=dict(output_heatmaps=True)))
     else:
@@ -74,7 +75,7 @@ def main():
         device=args.device,
         cfg_options=cfg_options)
 
-    # init visualizer
+    # 初始化可视化器
     model.cfg.visualizer.radius = args.radius
     model.cfg.visualizer.alpha = args.alpha
     model.cfg.visualizer.line_width = args.thickness
@@ -83,11 +84,39 @@ def main():
     visualizer.set_dataset_meta(
         model.dataset_meta, skeleton_style=args.skeleton_style)
 
-    # inference a single image
+    # 对单张图像进行推理
     batch_results = inference_topdown(model, args.img)
     results = merge_data_samples(batch_results)
 
-    # show the results
+    # 提取关键点并保存到Excel
+    if results.pred_instances is None or len(results.pred_instances) == 0:
+        print_log(
+            f'未在图像中检测到人体：{args.img}',
+            logger='current',
+            level=logging.INFO)
+    else:
+        keypoints = results.pred_instances.keypoints  # 已经是 numpy.ndarray 类型
+        data_list = []
+        for idx, person_keypoints in enumerate(keypoints):
+            keypoints_flat = person_keypoints.flatten()
+            data_row = {'image_name': args.img, 'person_id': idx + 1}
+            for i in range(len(keypoints_flat) // 2):
+                data_row[f'x{i+1}'] = keypoints_flat[2 * i]
+                data_row[f'y{i+1}'] = keypoints_flat[2 * i + 1]
+            data_list.append(data_row)
+        # 保存到Excel文件
+        df = pd.DataFrame(data_list)
+        if args.out_file:
+            excel_file = args.out_file.rsplit('.', 1)[0] + '.xlsx'
+        else:
+            excel_file = 'keypoints.xlsx'
+        df.to_excel(excel_file, index=False)
+        print_log(
+            f'关键点已保存到 {excel_file}',
+            logger='current',
+            level=logging.INFO)
+
+    # 显示结果
     img = imread(args.img, channel_order='rgb')
     visualizer.add_datasample(
         'result',
@@ -104,7 +133,7 @@ def main():
 
     if args.out_file is not None:
         print_log(
-            f'the output image has been saved at {args.out_file}',
+            f'输出图像已保存到 {args.out_file}',
             logger='current',
             level=logging.INFO)
 

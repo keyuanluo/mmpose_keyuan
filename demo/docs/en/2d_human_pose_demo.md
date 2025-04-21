@@ -9,7 +9,7 @@ We provide demo scripts to perform human pose estimation on images or videos.
 We provide a demo script to test a single image, using the full image as input bounding box.
 
 ```shell
-python demo/image_demo.py \
+python demo/image_demo_single_00.py \
     ${IMG_FILE} ${MMPOSE_CONFIG_FILE} ${MMPOSE_CHECKPOINT_FILE} \
     --out-file ${OUTPUT_FILE} \
     [--device ${GPU_ID or CPU}] \
@@ -22,7 +22,7 @@ The pre-trained human pose estimation models can be downloaded from [model zoo](
 Take [coco model](https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth) as an example:
 
 ```shell
-python demo/image_demo.py \
+python demo/image_demo_single_00.py \
     tests/data/coco/000000000785.jpg \
     configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w48_8xb32-210e_coco-256x192.py \
     https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth \
@@ -33,7 +33,7 @@ python demo/image_demo.py \
 To run this demo on CPU:
 
 ```shell
-python demo/image_demo.py \
+python demo/image_demo_single_00.py \
     tests/data/coco/000000000785.jpg \
     configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w48_8xb32-210e_coco-256x192.py \
     https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth \

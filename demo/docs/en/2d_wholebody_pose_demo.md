@@ -7,7 +7,7 @@
 We provide a demo script to test a single image, using the full image as input bounding box.
 
 ```shell
-python demo/image_demo.py \
+python demo/image_demo_single_00.py \
     ${IMG_FILE} ${MMPOSE_CONFIG_FILE} ${MMPOSE_CHECKPOINT_FILE} \
     --out-file ${OUTPUT_FILE} \
     [--device ${GPU_ID or CPU}] \
@@ -18,7 +18,7 @@ The pre-trained hand pose estimation models can be downloaded from [model zoo](h
 Take [coco-wholebody_vipnas_res50_dark](https://download.openmmlab.com/mmpose/top_down/vipnas/vipnas_res50_wholebody_256x192_dark-67c0ce35_20211112.pth) model as an example:
 
 ```shell
-python demo/image_demo.py \
+python demo/image_demo_single_00.py \
     tests/data/coco/000000000785.jpg \
     configs/wholebody_2d_keypoint/topdown_heatmap/coco-wholebody/td-hm_vipnas-res50_dark-8xb64-210e_coco-wholebody-256x192.py \
     https://download.openmmlab.com/mmpose/top_down/vipnas/vipnas_res50_wholebody_256x192_dark-67c0ce35_20211112.pth \
@@ -28,7 +28,7 @@ python demo/image_demo.py \
 To run demos on CPU:
 
 ```shell
-python demo/image_demo.py \
+python demo/image_demo_single_00.py \
     tests/data/coco/000000000785.jpg \
     configs/wholebody_2d_keypoint/topdown_heatmap/coco-wholebody/td-hm_vipnas-res50_dark-8xb64-210e_coco-wholebody-256x192.py \
     https://download.openmmlab.com/mmpose/top_down/vipnas/vipnas_res50_wholebody_256x192_dark-67c0ce35_20211112.pth \

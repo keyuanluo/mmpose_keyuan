@@ -118,7 +118,7 @@ The downloading will take several seconds or more, depending on your network env
 Option (A). If you install mmpose from source, just run the following command under the folder `$MMPOSE`:
 
 ```shell
-python demo/image_demo.py \
+python demo/image_demo_single_00.py \
     tests/data/coco/000000000785.jpg \
     td-hm_hrnet-w48_8xb32-210e_coco-256x192.py \
     td-hm_hrnet-w48_8xb32-210e_coco-256x192-0e67c616_20220913.pth \

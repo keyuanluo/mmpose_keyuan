@@ -117,7 +117,7 @@ mim download mmpose --config td-hm_hrnet-w48_8xb32-210e_coco-256x192  --dest .
 如果您是**从源码安装**的 mmpose，可以直接运行以下命令进行验证：
 
 ```shell
-python demo/image_demo.py \
+python demo/image_demo_single_00.py \
     tests/data/coco/000000000785.jpg \
     td-hm_hrnet-w48_8xb32-210e_coco-256x192.py \
     td-hm_hrnet-w48_8xb32-210e_coco-256x192-0e67c616_20220913.pth \
